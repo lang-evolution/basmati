@@ -1,0 +1,168 @@
+(defpoll readings "./readings.py")
+
+(defwindow main_panel
+  :monitor "${basmati_monitor}"
+  :geometry (geometry
+    :x "0%"
+    :y "20%"
+    ; :width "100%"
+    :anchor "bottom left")
+  :stacking "fg"
+  :windowtype "dock"
+  :exclusive true
+  :class "bar"
+  ; :reserve (struts :distance "30px" :side "left")
+  (box
+      :class "dirty"
+      :style "padding-left:10px"
+      :halign "start"
+      {readings[]}
+      ; (box :class "battery" "${bat-raw}% Battery [${bat-status-raw}]")
+    ))
+
+; (defwidget battery []
+;     (box
+;       :class "dirty"
+;       :style "padding-left:10px"
+;       :halign "start"
+;       (box :class "battery" "${bat-raw}% Battery [${bat-status-raw}]")
+;     )
+;   )
+
+
+; ; TODO - once a power supply is available,
+; ; don't show any indicator if battery is not being used / charging mode is active
+; (defwidget battery []
+;     (box
+;       :class "dirty"
+;       :style "padding-left:10px"
+;       :halign "start"
+;       (box :class "battery" "${bat-raw}% Battery [${bat-status-raw}]")
+;     )
+;   )
+
+; (defwidget inner-border-provider []
+;   (box :class "border-outer"
+;     (box :class "inner-border-provider"
+;     (battery)
+;       (current-time)
+;       )))
+
+; (defwindow bar
+;   :monitor 0
+;   :geometry (geometry
+;     :x "0%"
+;     :y "0%"
+;     :width "100%"
+;     :anchor "top center")
+;   :stacking "fg"
+;   :windowtype "dock"
+;   :exclusive true
+;   :class "bar"
+;   ; :reserve (struts :distance "30px" :side "left")
+;   (inner-border-provider "asdf"))
+
+; ; LEGACY ITEMS BELOW
+; ; ------------------------------------------------------
+
+
+
+
+
+; (deflisten workspaces-list :initial "[]" `~/.config/eww/scripts/get-workspaces`)
+
+; (defwidget workspace-item [name focused visible]
+;   (label
+;     :onclick `swaymsg workspace "${name}"`
+;     :class "workspace"
+;     ; :class {focused ? "workspace focused" : visible ? "workspace visible" : "workspace"}
+;     :text "${focused ? '⊚' : '∘'}"))
+
+; (defpoll active-project-name :interval "1s" `source ~/.active_project; echo $ACTIVE_PROJECT`)
+
+; (defwidget active-project []
+;   (box
+;     :halign "start"
+;     :class "active-project"
+;       "Active Project: ./${active-project-name}"))
+
+; (defwidget workspaces []
+;   (box
+;     :class "workspaces"
+;     :spacing 10
+;     :hexpand false
+;     :halign "start"
+;     (for ws in workspaces-list
+;       (workspace-item :name "${ws.name}" :focused "${ws.focused}" :visible "${ws.visible}"))))
+
+; (defpoll time-raw :interval "1s" `date '+%R'`)
+; (defpoll date-raw :interval "1s" `date '+%a %Y.%m.%d'`)
+; (defpoll bat-raw :interval "1s" `cat /sys/class/power_supply/BAT1/capacity`)
+; (defpoll bat-status-raw :interval "1s" `cat /sys/class/power_supply/BAT1/status`)
+; (defpoll pj-diff :interval "1s" `pj diff -s | wc -l`)
+
+; ; (defpoll project-completion :interval "1s" `art ls REQ-florid -N --plain | tail -1`)
+
+; ; (defwidget completion []
+; ;   (box :class "completion" "[SPC%] [TST%] ${project-completion}"))
+
+; (defwidget current-time []
+;   (box
+;     :halign "end"
+;     :spacing 10
+;     :hexpand false
+;     :space-evenly false
+;     :class "current-date-and-time"
+;     (box
+;       :class "current-date"
+;       :halign "end"
+;       "${date-raw}")
+;     (box
+;       :class "current-time"
+;       :halign "end"
+;       "${time-raw}")))
+
+; (defwidget dirty []
+;   (box
+;     :class "dirty"
+;     :halign "center"
+;     {"${pj-diff}" == "0" ? "" : "${pj-diff}" == "1" ? "1 Unrecorded File!" : "${pj-diff} Unrecorded Files!"}))
+
+; (defwidget bar []
+;   (box
+;     ; (active-project)
+;     ; (workspaces)
+;     ; (battery)
+;     "asdf"
+;     ; (current-time)
+;     ))
+
+; (defwindow bar1
+;   :monitor 0
+;   :geometry (geometry :x "0%" :y "0%" :width "100%" :height "30px" :anchor "bottom center")
+;   :stacking "fg"
+;   :windowtype "dock"
+;   :exclusive true
+;   :class "bar"
+;   :reserve (struts :distance "30px" :side "top")
+;   (bar))
+
+; (defwindow bar2
+;   :monitor 0
+;   :geometry (geometry :x "0%" :y "0%" :width "30px" :height "100%" :anchor "center left")
+;   :stacking "fg"
+;   :windowtype "dock"
+;   :exclusive true
+;   :class "bar"
+;   :reserve (struts :distance "30px" :side "left")
+;   (time))
+
+; (defwindow desktop
+;   :monitor 0
+;   :geometry (geometry :anchor "top right" :x "0%" :y "25%" :width "100%" :height "100%")
+;   :stacking "bg"
+;   :wm-ignore true
+;   :windowtype "desktop"
+;   (box)
+;   ; (box :class "desktop" "Project ⊸ Florid")
+; )
