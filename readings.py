@@ -3,6 +3,7 @@
 import subprocess
 import sys
 import json
+import psutil
 
 SOUND_BAR_COUNT = 5
 
@@ -10,7 +11,6 @@ shell = lambda args: subprocess.run(args, stdout=subprocess.PIPE).stdout.decode(
 hyprland = lambda cmd: ev(["hyprctl", "repl" f"'{cmd}'"])
 
 volume = float(split(shell("wpctl get-volume @DEFAULT_AUDIO_SINK@"), " ")[1])
-sound_bar_increment = 1.0 / SOUND_BAR_COUNT
 
 def workspaces():
     return {
@@ -19,22 +19,22 @@ def workspaces():
     }
 
 def sound_bars():
-    return {
-        
-    }
+    sound_bar_increment = 1.0 / SOUND_BAR_COUNT
+    return map(lambda i: { "index": i, "active": volume <= sound_bar_increment * i}, 0..sound_bar_count)
 
-readings = {
-    "workspaces": lambda: ,
-    "sound_bars": map(lambda i: { "index": i, "active": volume <= sound_bar_increment * i}, 0..sound_bar_count),
-    "warnings": {
-        "network": shell("nm-online -t 4 && echo 1") == "1" ?
-            { "attention": false, "state": "ONLINE" } :
-            { "attention": true, "state": "OFFLINE" },
-        "memory": { "": "", "": "" },
+def warnings():
+    connected = shell("nm-online -t 4 && echo 1") == "1" 
+    memory_attenion = False
+    # memory_
+    memory_level = psutil.virutal_memory().percent
+
+
+    return {
+        "network": { "attention": not connected, "status": connected ? "ONLINE" : "OFFLINE" } :
+        "memory": { "attention": "", "": "" },
         "processor": { "": "" },
     }
-    # TODO battery
-}
+
 
 workspaces_index_of_active = hyprland("hl.get_workspace(hl.get_active_workspace()).id")
 workspaces_total_count = hyprland("getn(hl.get_workspaces())")

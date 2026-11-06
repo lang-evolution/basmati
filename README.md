@@ -17,7 +17,7 @@ wpctl
 ```lua
 local basmati_root = "/PLACE/WHERE/YOU/CLONED/BASMATI"
 
-<!-- You can use a hardcoded monitor like "e-DP1" instead of hl.get_monitors()[1] -->
+-- You can use a hardcoded monitor like "e-DP1" instead of hl.get_monitors()[1]
 local basmati_monitor = hl.get_monitors()[1]
 
 hl.on("hyprland.start", function ()
